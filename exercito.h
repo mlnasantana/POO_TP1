@@ -2,6 +2,7 @@
 #define EXERCITO_H
 
 #include <vector>
+#include <string>
 #include "unidade.h"
 
 class Exercito {
@@ -13,9 +14,9 @@ public:
     Exercito(string nome);
     ~Exercito();
     void adicionarUnidade(Unidade* unidade);
-    string getResultados() const;
+    string getNome() const { return nome; }
+    vector<Unidade*>& getUnidades() { return unidades; }
     void imprimeUnidades();
-    vector<Unidade*>& getUnidades(); // Novo método
 };
 
 #endif

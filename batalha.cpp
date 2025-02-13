@@ -1,33 +1,62 @@
 #include "batalha.h"
+#include "infantaria.h"
+#include "veiculo.h"
+#include "aeronave.h"
 #include <iostream>
 
-Batalha::Batalha(Exercito* a, Exercito* b) : exercitoA(a), exercitoB(b), resultadoA(0), resultadoB(0) {}
+Batalha::Batalha(Exercito* a, Exercito* b) 
+    : exercitoA(a), exercitoB(b), vitoriasA(0), vitoriasB(0) {}
+
 Batalha::~Batalha() {}
 
-void Batalha::ataqueExercitoA() {
-    if (!exercitoA || exercitoA->getUnidades().empty()) {
-        cout << "Erro: Exercito A não possui unidades!" << endl;
-        return;
-    }
+void Batalha::realizarBatalha() {
+    cout << "\n=== Iniciando Nova Batalha ===" << endl;
+    
+    // Realizar os três tipos de combate
+    combateTipoEspecifico<Infantaria>();
+    combateTipoEspecifico<Veiculo>();
+    combateTipoEspecifico<Aeronave>();
+}
+
+template<typename T>
+void Batalha::combateTipoEspecifico() {
+    int poderA = 0, poderB = 0;
+    
+    // Calcular poder total para unidades do tipo T no exército A
     for (Unidade* unidade : exercitoA->getUnidades()) {
-        resultadoA += unidade->getPoderAtaque();
+        if (typeid(*unidade) == typeid(T)) {
+            poderA += unidade->getPoderAtaque();
+        }
     }
-}
-
-void Batalha::ataqueExercitoB() {
-    if (!exercitoB || exercitoB->getUnidades().empty()) {
-        cout << "Erro: Exercito B não possui unidades!" << endl;
-        return;
-    }
+    
+    // Calcular poder total para unidades do tipo T no exército B
     for (Unidade* unidade : exercitoB->getUnidades()) {
-        resultadoB += unidade->getPoderAtaque();
+        if (typeid(*unidade) == typeid(T)) {
+            poderB += unidade->getPoderAtaque();
+        }
+    }
+    
+    // Determinar vencedor deste tipo de combate
+    string tipoUnidade = typeid(T).name();
+    cout << "Combate de " << tipoUnidade << ":" << endl;
+    cout << "Exército A: " << poderA << " vs Exército B: " << poderB << endl;
+    
+    if (poderA > poderB) {
+        vitoriasA++;
+        cout << "Exército A venceu este combate!" << endl;
+    } else if (poderB > poderA) {
+        vitoriasB++;
+        cout << "Exército B venceu este combate!" << endl;
+    } else {
+        cout << "Empate neste combate!" << endl;
     }
 }
 
-string Batalha::getResultado() {
-    if (resultadoA > resultadoB)
-        return "Exército A venceu!";
-    else if (resultadoB > resultadoA)
-        return "Exército B venceu!";
-    return "Empate!";
+string Batalha::getResultado() const {
+    if (vitoriasA >= 2) {
+        return "Exército A venceu a batalha!";
+    } else if (vitoriasB >= 2) {
+        return "Exército B venceu a batalha!";
+    }
+    return "Empate na batalha!";
 }

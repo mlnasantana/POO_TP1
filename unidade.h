@@ -15,6 +15,7 @@ public:
     virtual int getPoderAtaque();
     void setPoderAtaque(int poderAtaque);
     void somaDestruicao();
+    int getDestruicoes() const { return destruicoes; }  // Novo método
     virtual void print();
 };
 
