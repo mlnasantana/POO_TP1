@@ -1,0 +1,87 @@
+sistema de batalha
+
+- unidade: classe base para todas como unidade militares
+- infantaria: se destaca por ter poder moderado 
+- aeronave: classe de classes de diferentes unidades com atributos
+- exercito: gerencia um cojunto de unidades
+- batalha: controla o dois entre exercitos
+- campanha: sistema de torneio estilo brasileirao
+
+sistema de pontuação 
+
+vitoria: 3 pontos
+empate: 1
+derrota: 0
+
+mecanica de batalha 
+
+- cada campanha consiste em 3 combates
+	*infantaria vs infantaria
+	*veiculo vs veiculo
+	*aeronave vs aeronave
+	
+ - vence quem ganhar pelo menos 2 cobates
+ - cada unidade do exercito recebe um vencedor de destruição 
+ 
+ funciona como
+ 
+ inicializacao:
+ 
+ Campanha campanha;
+Exercito* exercito1 = new Exercito("Exercito 1");
+// Adicionar unidades ao exército
+exercito1->adicionarUnidade(new Infantaria());
+exercito1->adicionarUnidade(new Veiculo());
+exercito1->adicionarUnidade(new Aeronave());
+// Adicionar exército à campanha
+campanha.adicionarExercito(exercito1);
+
+simulação: 
+
+campanha.simularCampanha(); // Simula todas as batalhas
+campanha.mostrarClassificacao(); // Mostra tabela final
+campanha.mostrarUnidadeMaisDestrutiva(); // Mostra unidade com mais vitórias
+
+de poder por tipo
+
+a infantaria:
+	*poder_ataque (30-60)
+	*força (30-50)
+	*velocidade (10-40)
+	*formula ((poderAtaque*5) + (força*3) + velocidade*2))/10
+	
+veiculo:
+	*poder_ataque(40-80)
+	*blindagem (30-70)
+	*potencia de fogo (20-50)
+	*formula (poderAtaque*5) + (blindagem*4) + potênciaDeFogo*1))/10
+	
+aeronave: 
+	*poder _ataque (50-90)
+	*manobrabilidade (30-70)
+	*alcance (20-50)
+	*formula (poderAtaque*5) + (manobrabilidade*3) + alcance*2))/10
+	
+
+exemplo de uso:
+
+int main() {
+    srand(time(0));
+    
+    Campanha campanha;
+    
+    // Criar 4 exércitos
+    for(int i = 1; i <= 4; i++) {
+        Exercito* exercito = new Exercito("Exercito " + to_string(i));
+        exercito->adicionarUnidade(new Infantaria());
+        exercito->adicionarUnidade(new Veiculo());
+        exercito->adicionarUnidade(new Aeronave());
+        campanha.adicionarExercito(exercito);
+    }
+    
+    campanha.simularCampanha();
+    campanha.mostrarClassificacao();
+    campanha.mostrarUnidadeMaisDestrutiva();
+    
+    return 0;
+}
